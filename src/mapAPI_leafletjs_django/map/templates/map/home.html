@@ -23,7 +23,7 @@
     </script>
 
     <script>
-        var map = L.map('map').setView([-41.2858, 174.78682], 14);
+        var map = L.map('map').setView([35.6892, 51.3890], 14);
         mapLink = 
             '<a href="http://www.esri.com/">Esri</a>';
         wholink = 
@@ -33,6 +33,43 @@
             attribution: '&copy; '+mapLink+', '+wholink,
             maxZoom: 18,
             }).addTo(map);
+
+        var ws = new WebSocket("ws://localhost:9090/");                                
+        var greenIcon = L.icon({
+            iconUrl: '/static/map/img/QGCLogoFull.png',
+
+            iconSize:     [40, 40], // size of the icon
+                    
+            iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+                    
+            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        });          
+        
+        
+        var msg_counter = 0;
+        var marker
+        ws.onmessage = function(event) {
+            if (msg_counter == 0){
+                marker = L.marker([35.6892, event.data], {icon: greenIcon}).addTo(map);
+            }else{
+                console.log(event.data);                         
+                var lat = 35.6892;
+                var lng = event.data;
+                var newLatLng = new L.LatLng(lat, lng);
+                marker.setLatLng(newLatLng).update();
+            }
+            msg_counter = msg_counter + 1;
+                            
+        };
+
+        ws.onclose= function(event){
+            console.log('Connection closed');
+        }; 
+
+        
+
+            
+
 
         {% comment %} 
         var map = L.map('map').setView([-41.2858, 174.78682], 14);
