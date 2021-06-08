@@ -27,8 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','192.168.1.9']
 
-LOGIN_REDIRECT_URL = 'map'
-LOGOUT_REDIRECT_URL = 'map'
+LOGIN_REDIRECT_URL = '/map'
+LOGOUT_REDIRECT_URL = '/map'
 
 # Application definition
 
