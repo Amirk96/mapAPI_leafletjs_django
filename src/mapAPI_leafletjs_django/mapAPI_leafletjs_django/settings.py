@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','192.168.1.9']
 
+LOGIN_REDIRECT_URL = 'map'
+LOGOUT_REDIRECT_URL = 'map'
 
 # Application definition
 
@@ -40,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'map',
+    'accounts.apps.AccountsConfig',
+    'map.apps.MapConfig',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +61,7 @@ ROOT_URLCONF = 'mapAPI_leafletjs_django.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'map/templates/map')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], # project level os.path.join(BASE_DIR, 'templates')
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
