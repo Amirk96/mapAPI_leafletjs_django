@@ -34,7 +34,7 @@
             maxZoom: 18,
             }).addTo(map);
 
-        var ws = new WebSocket("ws://localhost:9090/");                                
+        var ws = new WebSocket("ws://127.0.0.1:9090/");//192.168.1.9
         var greenIcon = L.icon({
             iconUrl: '/static/map/img/QGCLogoFull.png',
 
@@ -48,16 +48,20 @@
         
         var msg_counter = 0;
         var marker
+        marker = L.marker([35.6892, 51.3890], {icon: greenIcon}).addTo(map);
         ws.onmessage = function(event) {
-            if (msg_counter == 0){
-                marker = L.marker([35.6892, event.data], {icon: greenIcon}).addTo(map);
+            msg = JSON.parse(event.data)
+            console.log(msg.roll);
+            if (event.lat  == 0){
+                console.log('GPS value is not valid!');                
             }else{
-                console.log(event.data);                         
-                var lat = 35.6892;
-                var lng = event.data;
+                var lat = msg.lat;
+                var lng = msg.lat;
                 var newLatLng = new L.LatLng(lat, lng);
-                marker.setLatLng(newLatLng).update();
+                marker.setLatLng(newLatLng).update();            
             }
+            
+            
             msg_counter = msg_counter + 1;
                             
         };

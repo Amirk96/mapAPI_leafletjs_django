@@ -17,7 +17,7 @@ class EchoConsumer(SyncConsumer):
         print('Disconnected', event)
  '''
 
-from channels.generic.websocket import AsyncWebsocketConsumer, WebsocketConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer, WebsocketConsumer, async_to_sync
 
 class EchoConsumer(AsyncWebsocketConsumer):
 
@@ -32,6 +32,10 @@ class EchoConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self,close_code):
         print('Disconnected', close_code)
+        await self.channel_layer.group_discard(
+            self.group_name,
+            self.channel_name
+        )
 
     async def receive(self,text_data):
 
